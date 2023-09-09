@@ -6,10 +6,6 @@
 This tutorial outlines the prerequisites and installation of the open-source help desk ticketing system osTicket.<br />
 
 
-<h2>Video Demonstration</h2>
-
-- ### [YouTube: How To Install osTicket with Prerequisites](https://www.youtube.com)
-
 <h2>Environments and Technologies Used</h2>
 
 - Microsoft Azure (Virtual Machines/Compute)
@@ -20,21 +16,13 @@ This tutorial outlines the prerequisites and installation of the open-source hel
 
 - Windows 10</b> (21H2)
 
-<h2>List of Prerequisites</h2>
-
-- Item 1
-- Item 2
-- Item 3
-- Item 4
-- Item 5
-
 <h2>Installation Steps</h2>
 
 <p>
 <img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 </p>
 <p>
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+To begin IIS needs to be enablled in windows with CGI and Common HTTP features. Open Control Panel. Then from there open PROGRAMS and TURN WINDOWS FEATURES ON OR OFF. Expand INTERNET INFORMATION SERVICES, expand WEB MANAGEMENT TOOLS, and enable IIS MANAGEMENT CONSOLE. Then Click to expand WORLD WIDE WEB SERVICES and APPLICATION DEVELOPMENT. In application development enable CGI and click ok to confirm.   
 </p>
 <br />
 
@@ -42,7 +30,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 <img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 </p>
 <p>
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+Then download and install PHP MANAGER for IIS (PHPManagerForIIS_V1.5.0.msi). Then download REWRITE MODULE (rewrite_amd64_en-US.msi). After installation, create a new folder called C:PHP on the Windows (C:) drive. This will be used to unzip PHP 7.3.8 (php-7.3.8-nts-Win32-VC15-x86.zip) zip folder from the installation files.   
 </p>
 <br />
 
@@ -50,6 +38,74 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 <img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 </p>
 <p>
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+Then download and install VC_redist.x86.exe from the installation files. 
 </p>
 <br />
+
+<p>
+<img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+</p>
+<p>
+Then download MYSQL5.5.62 (mysql-5.5.62-win32.msi) from the installation files. In the MYSQL setup wizard click "Typical Install". Then launch. Select Standard Configuration and INSTALL AS WINDOWS SERVICE. For credentials the username:root and Password:Password1 for the purposes of this lab.   
+</p>
+<br />
+
+<p>
+<img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+</p>
+<p>
+Before installing osTicket configurations need to be made within IIS. Open as an admin and select PHP Manager. Select Register new PHP version. Select Browse and select PHP CGI executable file (php-cgi.exe) within the PHP folder. After registering the PHP version, reload IIS server within the management console.
+</p>
+<br />
+
+<p>
+<img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+</p>
+<p>
+Now we can install osTIcket v1.15.8. Extract and copy the "upload" to c:\inetpub\wwwroot. Within c:\inetpub\wwwroot folder, rename "upload" to "osTicket". Then reload IIS.  
+</p>
+<br />
+
+<p>
+<img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+</p>
+<p>
+In the IIS console browse to Sites -> Default -> osTicket. Click "Browse *.80" which will bring up the osTicket page. Then click on PHP Manager while in the osTicket menu in IIS. Click "Enable or Disable an extension." Enable the following extensions:  php_imap.dll, php_intl.dll, php_opcache.dll.
+</p>
+<br />
+
+<p>
+<img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+</p>
+<p>
+Then a file needs to be renamed and permissions changed. In C:\inetpub\wwwroot\osTicket\include, rename ost-sampleconfig.php to ost-config.php. Then open its Properties and change the following permissions: Disable inheritence -> Remove All and New Permissions -> Everyone-> All. 
+</p>
+<br />
+
+<p>
+<img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+</p>
+<p>
+Then from the instillation files fownload and install HeidiSQL. Create a new session and enter the password used in the MYSQL. Then Right-click on Unnamed and create a new database named osTicket. 
+</p>
+<br />
+
+<p>
+<img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+</p>
+<p>
+Within the osTicket browser enter the necessary details to set up osTicket. For the MySQL database, use the credentials used in MySQL and HeidiSQL. 
+</p>
+<br />
+
+<p>
+<img src="https://i.imgur.com/DJmEXEB.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+</p>
+<p>
+OsTicket should now be installed! But before finishing delete the setup folder found in C:\inetpub\wwwroot\osTicket. Then change the permissions of the ost-config.php file to "Read" only. 
+</p>
+<br />
+
+<h2>osTicket is Installed!</h2>
+
+OsTicket is now installed and ready to be used. I used osTicket to see how a ticketing system works and how to resolve tickets. I get to see how a part of IT Support works through ticketing systems and SLA's.
